@@ -134,7 +134,7 @@ public class BuildCacheMojosExecutionStrategy implements MojosExecutionStrategy 
             if (restorable) {
                 CacheRestorationStatus cacheRestorationStatus =
                         restoreProject(result, mojoExecutions, mojoExecutionRunner, cacheConfig);
-                restored |= CacheRestorationStatus.SUCCESS == cacheRestorationStatus;
+                restored = CacheRestorationStatus.SUCCESS == cacheRestorationStatus;
                 executeExtraCleanPhaseIfNeeded(cacheRestorationStatus, cleanPhase, mojoExecutionRunner);
             }
             if (!restored) {
@@ -147,7 +147,7 @@ public class BuildCacheMojosExecutionStrategy implements MojosExecutionStrategy 
                 }
             }
 
-            if (cacheState == INITIALIZED && !result.isSuccess()) {
+            if (cacheState == INITIALIZED && (!result.isSuccess() || !restored)) {
                 final Map<String, MojoExecutionEvent> executionEvents = mojoListener.getProjectExecutions(project);
                 cacheController.save(result, mojoExecutions, executionEvents);
             }
