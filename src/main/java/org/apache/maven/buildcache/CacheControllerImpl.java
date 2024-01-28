@@ -404,8 +404,9 @@ public class CacheControllerImpl implements CacheController {
             LOGGER.debug("Downloading artifact {}", artifact.getArtifactId());
             final Path artifactFile = localCache.getArtifactFile(context, cacheResult.getSource(), artifact);
             final Path targetDir = Paths.get(project.getBuild().getDirectory());
-            final Path targetArtifact =
-                    targetDir.resolve(artifact.getArtifactId() + "-" + originalVersion + "." + artifact.getType());
+            final Path targetArtifact = targetDir.resolve(project.getBuild().getFinalName()
+                    + (artifact.getClassifier() != null ? "-".concat(artifact.getClassifier()) : "")
+                    + ".".concat(FilenameUtils.getExtension(artifact.getFileName())));
 
             if (!Files.exists(artifactFile)) {
                 throw new FileNotFoundException("Missing file for cached build, cannot restore. File: " + artifactFile);

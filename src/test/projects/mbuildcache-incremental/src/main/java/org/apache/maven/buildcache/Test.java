@@ -18,7 +18,17 @@
  */
 package org.apache.maven.buildcache;
 
-class Test
+/**
+ * Test class
+ */
+public class Test
 {
+
+    /**
+     * public constructor
+     */
+    public Test() {
+
+    }
 
 }
